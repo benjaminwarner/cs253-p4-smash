@@ -7,6 +7,8 @@
 
 void execute_command(char *str) {
 	char *token = strtok(str, COMMAND_DELIM);
+	if (token == NULL)
+		return;
 	if (strncmp("exit", token, 4) == 0) {
 		exit(0);
 	} else if (strncmp("cd", token, 2) == 0) {
