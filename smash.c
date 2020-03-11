@@ -1,5 +1,4 @@
-#define MAXLINE 4096
-
+#include "smash.h"
 #include <string.h>
 #include <stdio.h>
 
@@ -9,7 +8,7 @@ int main(int argc, char *argv[]) {
 
 	while (fgets(buffer, sizeof(buffer), stdin) != NULL) {
 		buffer[strlen(buffer) - 1] = '\0';
-		puts(buffer);
+		execute_command(buffer);
 		fputs("$ ", stderr);
 	}
 	return 0;
