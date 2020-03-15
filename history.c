@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
 static struct history_entry **entries;
 static int count = 0;
@@ -43,6 +44,7 @@ void print_history() {
 		print_history_entry(position);
 		position = (position + 1) % MAX_HISTORY;
 	}
+	errno = 0;
 }
 
 void print_history_entry(int p) {

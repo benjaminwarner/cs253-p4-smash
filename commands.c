@@ -22,6 +22,15 @@ void execute_command(char *str) {
 	} else if (strncmp("history", token, 7) == 0) {
 		print_history();
 	} else {
+		char buffer[50];
+		sprintf(buffer, "[0] %s", token);
+		puts(buffer);
+		int count = 1;
+		while ((token = strtok(NULL, COMMAND_DELIM)) != NULL) {
+			sprintf(buffer, "[%d] %s", count, token);
+			puts(buffer);
+			count++;
+		}
 		errno = 127;
 	}
 	add_history(buffer, errno);
@@ -36,6 +45,7 @@ void change_working_dir(char *dir) {
 		errno = 1;
 	} else {
 		puts(dir);
+		errno = 0;
 	}
 }
 
@@ -43,6 +53,7 @@ void print_working_dir() {
 	char buffer[4096];
 	if (getcwd(buffer, sizeof(buffer)) != NULL) {
 		puts(buffer);
+		errno = 0;
 	} else {
 		perror(NULL);
 	}
