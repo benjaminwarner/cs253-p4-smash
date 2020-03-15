@@ -21,6 +21,8 @@ void execute_command(char *str) {
 		print_working_dir();
 	} else if (strncmp("history", token, 7) == 0) {
 		print_history();
+	} else {
+		errno = 127;
 	}
 	add_history(buffer, errno);
 }
@@ -31,6 +33,7 @@ void change_working_dir(char *dir) {
 	int status = chdir(dir);
 	if (status != 0) {
 		perror(NULL);
+		errno = 1;
 	} else {
 		puts(dir);
 	}
