@@ -1,4 +1,5 @@
 #include "commands.h"
+#include "history.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,6 +7,8 @@
 #include <errno.h>
 
 void execute_command(char *str) {
+	char buffer[strlen(str) + 1];
+	strncpy(buffer, str, sizeof(buffer));
 	char *token = strtok(str, COMMAND_DELIM);
 	if (token == NULL)
 		return;
@@ -16,7 +19,10 @@ void execute_command(char *str) {
 		change_working_dir(token);
 	} else if (strncmp("pwd", token, 2) == 0) {
 		print_working_dir();
+	} else if (strncmp("history", token, 7) == 0) {
+		print_history();
 	}
+	add_history(buffer, errno);
 }
 
 void change_working_dir(char *dir) {

@@ -1,8 +1,11 @@
 #include "smash.h"
+#include "history.h"
 #include <string.h>
 #include <stdio.h>
 
 int main(int argc, char *argv[]) {
+	init_history();
+
 	char buffer[MAXLINE];
 	fputs("$ ", stderr);
 
@@ -11,5 +14,6 @@ int main(int argc, char *argv[]) {
 		execute_command(buffer);
 		fputs("$ ", stderr);
 	}
+	clear_history();
 	return 0;
 }
