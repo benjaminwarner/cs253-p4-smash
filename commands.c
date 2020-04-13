@@ -37,19 +37,26 @@ void execute_command(char *str) {
 		execute_external_command(file_name, args);
 	}
 	add_history(buffer, errno);
+	errno = 0;
 }
 
-int execute_external_command(char *file_name, char *args[]) {
+void execute_external_command(char *file_name, char *args[]) {
 	int pid = fork();
 	if (pid == 0) {
 		int status = execvp(file_name, args);
 		if (status)
 			perror(NULL);
 	} else if (pid > 0) {
-		wait(NULL);
+		int status;
+		if (waitpid(pid, &status, 0) == -1) {
+			perror(NULL);
+		}
+		if (WIFEXITED(status)) {
+			errno = WEXITSTATUS(status);
+		}
 	} else {
+		perror(NULL);
 	}
-	return 0;
 }
 
 void change_working_dir(char *dir) {
