@@ -44,8 +44,10 @@ void execute_external_command(char *file_name, char *args[]) {
 	int pid = fork();
 	if (pid == 0) {
 		int status = execvp(file_name, args);
-		if (status)
+		if (status) {
 			perror(NULL);
+			exit(status);
+		}
 	} else if (pid > 0) {
 		int status;
 		if (waitpid(pid, &status, 0) == -1) {
